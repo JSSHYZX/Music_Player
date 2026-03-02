@@ -1,0 +1,32 @@
+#「Hello」初音ミク特别演唱会（20260214夜公演） 日文版歌曲列表
+<img src="image/List-J.jpg" alt="Song List - J">
+<style> .songs_info { padding: 20px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(5px); border-radius: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); margin-top: 16px; } .song-row { display: flex; align-items: center; height: 26px; line-height: 26px; padding: 0 18px; margin: 8px 0; border-radius: 40px; transition: all 0.2s ease; font-weight: bold; } .song-row:hover { transform: translateX(6px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); } .song-row:nth-child(odd) { background: rgba(79, 211, 208, 0.12); } .song-row:nth-child(even) { background: rgba(244, 147, 183, 0.12); } .song-color-1 { color: #4ED3D0; } .song-color-2 { color: #F493B7; } </style>
+<div class="songs_info">
+<p class="song-row song-color-2">M01 - 重聚 / Reunion (2019)</p>
+<p class="song-row song-color-1">M02 - 安卓少女 / <span lang="ja">アンドロイドガール</span> / Android Girl (2019)</p>
+<p class="song-row song-color-2">M03 - 火花 / <span lang="ja">ヒバナ</span> / HIBANA (Reloaded) (2017)</p>
+<p class="song-row song-color-1">M04 - 幽灵法则 / <span lang="ja">ゴーストルール</span> / Ghost Rule (2016)</p>
+<p class="song-row song-color-2">M05 - 奇美拉 / <span lang="ja">キメラ</span> / Chimera (2022)</p>
+<p class="song-row song-color-1">M06 - 沙罗曼蛇 / <span lang="ja">サラマンダー</span> / Salamander (2022)</p>
+<p class="song-row song-color-2">M07 - 兔子洞 / <span lang="ja">ラビットホール</span> / Rabbit Hole (Reloaded) (2023)</p>
+<p class="song-row song-color-1">M08 - 麻烦鬼 / <span lang="ja">おじゃま虫</span> / Stickybug (2014)</p>
+<p class="song-row song-color-2">M09 - 樱桃汽水 / <span lang="ja">チェリーポップ</span> / Cherry Pop (2025)</p>
+<p class="song-row song-color-1">M10 - 妄想感伤代偿联盟 / <span lang="ja">妄想感傷代償連盟</span> / MKDR (DSCF) (2016)</p>
+<p class="song-row song-color-2">M11 - 乙女解剖 / <span lang="ja">乙女解剖</span> / Otome Dissection (2019)</p>
+<p class="song-row song-color-1">M12 - 胆小鬼蒙布朗 / <span lang="ja">弱虫モンブラン</span> / Yowa...Blanc (Reloaded) (2025)</p>
+<p class="song-row song-color-2">M13 - 二息步行 / <span lang="ja">二息歩行</span> / Two Breaths Walking (Reloaded) (2020)</p>
+<p class="song-row song-color-1">M14 - 马赛克卷 / <span lang="ja">モザイクロール</span> / Mozaik Role (Reloaded) (2021)</p>
+<p class="song-row song-color-2">M15 - 爱迷挽歌 / <span lang="ja">愛迷エレジー</span> / Aimai Elegy (Reloaded) (2025)</p>
+<p class="song-row song-color-1">M16 - 吸血鬼 / <span lang="ja">ヴァンパイア</span> / The Vampire (2021)</p>
+<p class="song-row song-color-2">M17 - 灰姑娘 / <span lang="ja">シンデレラ</span> / Cinderella (2021)</p>
+<p class="song-row song-color-1">M18 - 动物 / <span lang="ja">アニマル</span> / Animal (2021)</p>
+<p class="song-row song-color-2">M19 - 视奸 / <span lang="ja">モニタリング</span> / Monitoring (2024)</p>
+<p class="song-row song-color-1">M20 - 妄想税 / <span lang="ja">妄想税</span> / Delusion Tax (2013)</p>
+<p class="song-row song-color-2">M21 - 棉花糖 / <span lang="ja">マシュマロ</span> / Marshmellow (2025)</p>
+<p class="song-row song-color-1">M22 - 伏特攻击 / <span lang="ja">ボルテッカー</span> / Volt Tackle (2023)</p>
+<p class="song-row song-color-2">M23 - 心灵感应 / <span lang="ja">テレパシ</span> / Telepathy (2025)</p>
+<p class="song-row song-color-1">M24 - 心动模式 / <span lang="ja">ハートアラモード</span> / Heart A La mode (2014)</p>
+<p class="song-row song-color-2">M25 - 蓝色星球 / <span lang="ja">ブループラネット</span> / Blue Planet (2023)</p>
+<p class="song-row song-color-1">M26 - 好 / <span lang="ja">ハオ</span> / HAO (2024)</p>
+<h3 class="song-row" style="background: linear-gradient(to right, #CB6FEC, #EA9DE7, #84E1DD, #5BE2DB, #60EAC7, #B6F98A); background-clip: text; color: transparent;">M27 - 爱言叶V / <span lang="ja">愛言葉Ⅴ</span> / Love Words V (2026)</h3>
+</div>

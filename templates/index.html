@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频自动播放器</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome/css/all.min.css') }}">
+    <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    -->
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-film"></i> 视频自动播放器</h1>
+            <p class="subtitle">自动播放文件夹内的视频，支持多种播放模式</p>
+        </header>
+
+        <main>
+            <div class="player-section">
+                <div class="video-container">
+                    <video id="videoPlayer" controls>
+                        <source src="" type="video/mp4">
+                        您的浏览器不支持视频播放
+                    </video>
+
+                    <div class="video-controls">
+                        <div class="control-group">
+                            <button id="playPauseBtn" class="btn">
+                                <i class="fas fa-play"></i> 播放/暂停
+                            </button>
+                            <button id="prevBtn" class="btn">
+                                <i class="fas fa-backward"></i> 上一个
+                            </button>
+                            <button id="nextBtn" class="btn">
+                                <i class="fas fa-forward"></i> 下一个
+                            </button>
+                        </div>
+
+                        <div class="control-group">
+                            <button id="fullscreenBtn" class="btn">
+                                <i class="fas fa-expand"></i> 全屏
+                            </button>
+                            <div class="volume-control">
+                                <i class="fas fa-volume-up"></i>
+                                <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-info">
+                        <h3 id="currentVideoTitle">未选择视频</h3>
+                        <div class="progress-container">
+                            <input type="range" id="progressBar" min="0" max="100" value="0" class="progress-bar">
+                            <div class="time-display">
+                                <span id="currentTime">00:00</span> /
+                                <span id="totalTime">00:00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <div class="playback-mode">
+                        <h3><i class="fas fa-cog"></i> 播放设置</h3>
+                        <div class="mode-buttons">
+                            <button class="mode-btn active" data-mode="sequential">
+                                <i class="fas fa-list-ol"></i> 顺序播放
+                            </button>
+                            <button class="mode-btn" data-mode="loop">
+                                <i class="fas fa-redo"></i> 单曲循环
+                            </button>
+                            <button class="mode-btn" data-mode="shuffle">
+                                <i class="fas fa-random"></i> 随机播放
+                            </button>
+                        </div>
+
+                        <div class="settings">
+                            <label class="checkbox">
+                                <input type="checkbox" id="autoPlayNext" checked>
+                                <span>自动播放下一视频</span>
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" id="muteAudio" checked>
+                                <span>启用声音</span>
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" id="showLyric">
+                                <span>显示歌词</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="video-list-container">
+                        <div class="list-header">
+                            <h3><i class="fas fa-folder-open"></i> 视频列表</h3>
+                            <button id="refreshBtn" class="btn-small">
+                                <i class="fas fa-sync"></i> 刷新
+                            </button>
+                        </div>
+
+                        <div class="video-list" id="videoList">
+                            <!-- 视频列表将通过JavaScript动态加载 -->
+                            <div class="empty-list">
+                                <i class="fas fa-video-slash"></i>
+                                <p>文件夹中没有视频文件</p>
+                            </div>
+                        </div>
+
+                        <div class="upload-section">
+                            <h4><i class="fas fa-upload"></i> 上传视频</h4>
+                            <div class="upload-area" id="uploadArea">
+                                <input type="file" id="fileInput" accept=".mp4,.avi,.mov,.mkv,.webm" multiple>
+                                <div class="upload-prompt">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>点击选择或拖拽视频文件到此区域</p>
+                                    <small>支持 MP4, AVI, MOV, MKV, WebM 格式</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lyric-section">
+                <div class="lyric-title">
+                    <h3 id="Lyric">Lyric</h3>
+                </div>
+
+                <div class="lyric-container">
+                    <div class="lyric-foreign">
+                        <h4 id="currentLyricForeign">None</h4>
+                    </div>
+                    <div class="lyric-chinese">
+                        <h4 id="currentLyricChinese">None</h4>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>视频自动播放器 &copy; 2025 | 当前文件夹: <span id="folderPath">{{ folderPath }}</span></p>
+            <p style="color: grey;"><a style="color:grey;" href="/about">About</a></p>
+            <p style="color: grey;">歌词来源:<a style="color: grey;" href="https://lyrics.lyricfind.com/"><i>lyrics.lyricfind.com</i></a>  翻译:<a style="color: grey;" href="https://zh.moegirl.org.cn/Mainpage"><i>zh.moegirl.org.cn</i></a></p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/player.js') }}"></script>
+
+    <script>
+    function jumpTo(seconds) {
+      var video = document.getElementById('videoPlayer');
+      if (video.readyState >= 1) {
+        video.currentTime = seconds;
+        video.play();
+      }
+    }
+    </script>
+</body>
+</html>
