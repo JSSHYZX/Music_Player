@@ -79,7 +79,7 @@ def is_video_file(filename):
 @app.route('/home')
 def index():
     """主页"""
-    return render_template('index.html')
+    return render_template('index.html',folderPath = app.config['VIDEO_FOLDER'])
 
 @app.route('/change/<file>')
 @app.route('/goto/<file>')
@@ -93,9 +93,20 @@ def change(file):
         app.config['VIDEO_FOLDER'] = 'videos/'+file[6:]
     elif file == 'Hatsune Miku':
         return redirect('https://mzh.moegirl.org.cn/%E5%88%9D%E9%9F%B3%E6%9C%AA%E6%9D%A5')
+    elif file[0] == '$':
+        app.config['VIDEO_FOLDER'] = file[1:]
     else:
         app.config['VIDEO_FOLDER'] = 'videos/'+file
     return redirect(url_for('index'))
+
+@app.route('/path_submit',methods=['POST','GET'])
+def path_submit():
+    if request.method == 'POST':
+        file = request.form.get('file')
+        print(file)
+        if file:
+            app.config['VIDEO_FOLDER'] = file
+    return redirect(url_for('about'))
 
 @app.route('/about')
 def about():
@@ -138,12 +149,17 @@ def about():
         <p><a href="/go/root">root</a></p>
         <p><a href="/go/Tom and Jerry">猫和老鼠</a></p>
         <p><a href="/go/Hatsune Miku 2026">初音未来2026.2.14演唱会</a></p>
+        <br>
+        <form action="/path_submit" method="post">
+            <input type="text" name="file" placeholder="请输入跳转地址" size="50">
+            <button type="submit">跳转</button>
+        </form>
         <br><br>
         <h4><a href="/">返回index</a></h4>
     </div>
 </body>
 '''
-    return render_template_string(about_html, VIDEO_FOLDER=app.config['VIDEO_FOLDER'], IMAGEFOLDER=app.config['IMAGE_FOLDER'])
+    return render_template_string(about_html, VIDEOFOLDER=app.config['VIDEO_FOLDER'], IMAGEFOLDER=app.config['IMAGE_FOLDER'])
 
 @app.route('/api/videos')
 def get_videos():
