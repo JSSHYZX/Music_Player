@@ -6,8 +6,9 @@ import glob
 app = Flask(__name__)
 
 # 配置
-app.config['VIDEO_FOLDER'] = 'videos/Hatsune Miku 2026'
+app.config['VIDEO_FOLDER'] = 'fvideos'
 app.config['IMAGE_FOLDER'] = 'images'
+app.config['LYRIC_FOLDER'] = 'flyrics'
 app.config['ALLOWED_EXTENSIONS'] = {'mp4', 'avi', 'mov', 'mkv', 'webm'}
 app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024  # 500MB 文件大小限制
 
@@ -35,7 +36,7 @@ def get_lyric_Foreign():
     if len(videos):
         for video in videos:
             try:
-                v = "lyrics/foreign/" + video[0:-4] + ".txt"
+                v = app.config['LYRIC_FOLDER'] + "/foreign/" + video[0:-4] + ".txt"
                 file = open(v, "r", encoding="utf-8")
                 file.readline()
                 lyric = file.read()
@@ -56,7 +57,7 @@ def get_lyric_Chinese():
     if len(videos) :
         for video in videos:
             try:
-                v = "lyrics/chinese/"+video[0:-4]+".txt"
+                v = app.config['LYRIC_FOLDER'] + "/chinese/"+video[0:-4] + ".txt"
                 file = open(v, "r", encoding="utf-8")
                 file.readline()
                 lyric = file.read()
@@ -102,10 +103,19 @@ def change(file):
 @app.route('/path_submit',methods=['POST','GET'])
 def path_submit():
     if request.method == 'POST':
-        file = request.form.get('file')
-        print(file)
-        if file:
-            app.config['VIDEO_FOLDER'] = file
+        vp = request.form.get('video_path')
+        lp = request.form.get('lyric_path')
+        if vp:
+            app.config['VIDEO_FOLDER'] = vp
+        if lp:
+            app.config['LYRIC_FOLDER'] = lp
+    else:
+        vp = request.args.get('video_path')
+        lp = request.args.get('lyric_path')
+        if vp:
+            app.config['VIDEO_FOLDER'] = vp
+        if lp:
+            app.config['LYRIC_FOLDER'] = lp
     return redirect(url_for('about'))
 
 @app.route('/about')
@@ -144,11 +154,13 @@ def about():
         <br>
         <h6>当前VIDEOFOLDER: "{{VIDEOFOLDER}}"</h6>
         <h6>当前IMAGEFOLDER: "{{IMAGEFOLDER}}"</h6>
+        <h6>当前LYRICFOLDER: "{{LYRICFOLDER}}"</h6>
         <br><br>
         <h5>当前可用路径:</h5>
-        <p><a href="/go/root">root</a></p>
-        <p><a href="/go/Tom and Jerry">猫和老鼠</a></p>
-        <p><a href="/go/Hatsune Miku 2026">初音未来2026.2.14演唱会</a></p>
+        <p><a href="{{url_for('path_submit', video_path='videos', lyric_path='lyrics')}}">root</a></p>
+        <p><a href="{{url_for('path_submit', video_path='videos/Tom and Jerry', lyric_path='None')}}">猫和老鼠</a></p>
+        <p><a href="{{url_for('path_submit', video_path='D:/Music/「Hello」初音ミク特别演唱会（20260214夜公演）', lyric_path='D:/Music/「Hello」初音ミク特别演唱会（20260214夜公演）')}}">初音未来2026.2.14演唱会</a></p>
+        <p><a href="{{url_for('path_submit', video_path='D:/Music/「Hello」初音ミク特别演唱会（20260214夜公演）/Songs-Origin', lyric_path='D:/Music/「Hello」初音ミク特别演唱会（20260214夜公演）')}}">演唱会 原曲</a></p>
         <br>
         <form action="/path_submit" method="post">
             <input type="text" name="file" placeholder="请输入跳转地址" size="50">
@@ -159,7 +171,10 @@ def about():
     </div>
 </body>
 '''
-    return render_template_string(about_html, VIDEOFOLDER=app.config['VIDEO_FOLDER'], IMAGEFOLDER=app.config['IMAGE_FOLDER'])
+    return render_template_string(about_html,
+                                  VIDEOFOLDER=app.config['VIDEO_FOLDER'],
+                                  IMAGEFOLDER=app.config['IMAGE_FOLDER'],
+                                  LYRICFOLDER=app.config['LYRIC_FOLDER'])
 
 @app.route('/api/videos')
 def get_videos():

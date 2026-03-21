@@ -6,7 +6,8 @@ class VideoPlayer {
         this.currentVideoTitle = document.getElementById('currentVideoTitle');
         this.currentLyricForeign = document.getElementById('currentLyricForeign');
         this.currentLyricChinese = document.getElementById('currentLyricChinese');
-        this.lyricTitle = document.getElementById('Lyric')
+        this.debugInfo = document.getElementById('debugInfo');
+        this.lyricTitle = document.getElementById('Lyric');
         this.videos = [];
         this.lyrics_foreign = [];
         this.lyrics_chinese = [];
@@ -93,20 +94,8 @@ class VideoPlayer {
 
         this.videoElement.src = `/video/${encodeURIComponent(videoFile)}`;
         this.currentVideoTitle.textContent = videoFile;
-        const showLyric = document.getElementById('showLyric').checked;
-        if (showLyric){
-            const lf = this.lyrics_foreign[index];
-            const lc = this.lyrics_chinese[index];
-            const lyricTitle = "Lyric for " + videoFile;
-            this.lyricTitle.innerHTML = lyricTitle;
-            this.currentLyricForeign.innerHTML = lf;
-            this.currentLyricChinese.innerHTML = lc;
-        }
-        else{
-            this.lyricTitle.innerHTML = "";
-            this.currentLyricForeign.innerHTML = "";
-            this.currentLyricChinese.innerHTML = "";
-        }
+        this.showLyric()
+        this.debugMode()
 
         // 更新列表高亮
         document.querySelectorAll('.video-item').forEach((item, i) => {
@@ -119,6 +108,65 @@ class VideoPlayer {
             await this.videoElement.play();
             this.isPlaying = true;
             this.updatePlayButton();
+        }
+    }
+
+    showLyric() {
+        const showLyric = document.getElementById('showLyric').checked;
+        if (showLyric){
+            const index = this.currentIndex;
+            const videoFile = this.videos[index];
+            const lf = this.lyrics_foreign[index];
+            const lc = this.lyrics_chinese[index];
+            const lyricTitle = "Lyric for " + videoFile;
+            this.lyricTitle.innerHTML = lyricTitle;
+            this.currentLyricForeign.innerHTML = lf;
+            this.currentLyricChinese.innerHTML = lc;
+        }
+        else{
+            this.lyricTitle.innerHTML = "";
+            this.currentLyricForeign.innerHTML = "";
+            this.currentLyricChinese.innerHTML = "";
+        }
+    }
+
+    debugMode() {
+        const debugMode = document.getElementById('debugMode').checked;
+        if (debugMode){
+            let nextIndex;
+            let nnextIndex;
+            let nnnextIndex;
+            switch (this.playMode) {
+                case 'sequential':
+                    nextIndex = (this.currentIndex + 1) % this.videos.length;
+                    nnextIndex = (this.currentIndex + 2) % this.videos.length;
+                    nnnextIndex = (this.currentIndex + 3) % this.videos.length;
+                    break;
+                case 'loop':
+                    nextIndex = this.currentIndex;
+                    nnextIndex = this.currentIndex;
+                    nnnextIndex = this.currentIndex;
+                    break;
+                case 'shuffle':
+                    const currentVideo = this.videos[this.currentIndex];
+                    const shuffledIndex = this.shuffledList.indexOf(currentVideo);
+                    nextIndex = this.videos.indexOf(this.shuffledList[(shuffledIndex + 1) % this.shuffledList.length]);
+                    nnextIndex = this.videos.indexOf(this.shuffledList[(shuffledIndex + 2) % this.shuffledList.length]);
+                    nnnextIndex = this.videos.indexOf(this.shuffledList[(shuffledIndex + 3) % this.shuffledList.length]);
+                    break;
+            }
+            const info = "------Debug Info------<br>"
+                + "Now index:<br>" + this.videos[this.currentIndex] + " (" + this.currentIndex + ")<br>"
+                + "Next play:<br>" + this.videos[nextIndex] + " (" + nextIndex + ")<br>"
+                + this.videos[nnextIndex] + " (" + nnextIndex + ")<br>"
+                + this.videos[nnnextIndex] + " (" + nnnextIndex + ")<br>";
+            this.debugInfo.innerHTML = info;
+            console.log("Now index:" + this.currentIndex + ":" + this.videos[this.currentIndex])
+            console.log("Video list:\n" + this.videos)
+            console.log("Video shuffled:\n" + this.shuffledList)
+        }
+        else{
+            this.debugInfo.innerHTML = "";
         }
     }
 
@@ -329,6 +377,16 @@ class VideoPlayer {
         document.getElementById('fileInput').addEventListener('change', (e) => {
             this.uploadVideo(e.target.files);
             e.target.value = ''; // 重置input
+        });
+
+        //显示歌词
+        document.getElementById('showLyric').addEventListener('click', () => {
+            this.showLyric();
+        });
+
+        //调试模式
+        document.getElementById('debugMode').addEventListener('click', () => {
+            this.debugMode();
         });
     }
 
